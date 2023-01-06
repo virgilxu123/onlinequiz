@@ -42,109 +42,47 @@ $category=$cat->cat_shows();
   </head>
 
   <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
+  
+    <nav class=" fixed-top  navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="col-11 container-fluid">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">My Quiz</a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Help</a></li>
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar-right">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Quest-bank</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Overview
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Reports</a></li>
+                <li><a class="dropdown-item" href="#">Analytics</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Export</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="#">Logout</a></li>
+              </ul>
+            </li>
           </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
         </div>
       </div>
     </nav>
+    <div  class="dashboard">
+      <h2 class="ms-5">DASHBOARD</h2>
+    </div>
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Reports</a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">Export</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Admin Dashboard</h1>
-
-         
-
-        
-          <div class="table-responsive">
-            <table class="table table-striped">
-			<?php
-
-             if(isset($_GET['msg']) && !empty($_GET['msg']))
-			 {
-				 echo  "<mark>Data inserted successfully</mark>" ;
-			 }
-
-			?>
-         <form method="post" action="add_quiz.php">    
-    <div class="form-group">
-      <label for="text">Question</label>
-      <input type="text" class="form-control" name="qus" placeholder="Enter Question">
-    </div>
-	  
-	  <div class="form-group">
-      <label for="text">Option-1</label>
-      <input type="text" class="form-control" name="op1" placeholder="Enter Option-1 ">
-    </div>
-	
-    <div class="form-group">
-      <label for="text">Option-2</label>
-      <input type="text" class="form-control" name="op2" placeholder="Enter Option-2">
-    </div>
-	
-    <div class="form-group">
-      <label for="text">Option-3</label>
-      <input type="text" class="form-control" name="op3" placeholder="Enter Option-3">
-    </div>
-	
-	<div class="form-group">
-      <label for="text">Option-4</label>
-      <input type="text" class="form-control" name="op4" placeholder="Enter Option-4">
-    </div>
-	
-	<div class="form-group">
-      <label for="text">answer</label>
-      <input type="text" class="form-control"  name="ans"placeholder="Enter answer">
-    </div>
-	       <div class="form-group">
-	   <select class="form-control" id="sel1" name="cat">
-		<option value="" >choose category</option>
-		<?php 
-		 foreach($category as $c)
-		 {
-			 
-			 echo "<option value=".$c['id'].">".$c['category']."</option>";
-			 
-		 }
-		?>		
-      </select>
-    </div>
-   <button type="submit" class="btn btn-default">Submit</button><br>
-  </form>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+    
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -156,5 +94,12 @@ $category=$cat->cat_shows();
     <script src="../js/vendor/holder.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+      $('.nav-link').click(function() {
+        $('.nav-link').removeClass('active');
+        $(this).addClass('active');
+      });
+    </script>
   </body>
 </html>
