@@ -71,7 +71,11 @@ $category=$cat->cat_shows();
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Logout</a></li>
+                <li>
+                  <form action="logout.php" method="post">
+                    <input type="submit" class="dropdown-item" href="#" name="logout" value="logout">
+                  </form>
+                </li>
               </ul>
             </li>
           </ul>

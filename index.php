@@ -70,7 +70,7 @@ $signin=new users;
 					 </form>
 				 </div> 
 			</div>
-			<h4><a href="admin_login.php">Log in as Admin...</a></h4>
+			<h4><a href="admin/admin_login.php">Log in as Admin...</a></h4>
 		</div>
 		
 		<div class="col-sm-2"></div>

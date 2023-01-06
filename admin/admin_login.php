@@ -19,8 +19,8 @@
                     if($_POST["p"]==$password){
                         $_SESSION["loggedin"] = true;
                         $_SESSION["name"] = $name;
-
-                        header("location: admin/index.php");
+                        
+                        header("location:index.php");
                     }else {
                         $login_err = "Incorrect password";
                     }
@@ -86,7 +86,7 @@
                     </form>
                 </div>   
             </div>
-            <center><a href="index.php" class="btn btn-default ">Back</a></center>
+            <center><a href="../index.php" class="btn btn-default ">Back</a></center>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
