@@ -2,7 +2,7 @@
 include("class/users.php");
 $qus=new users;
 $cat=$_POST['cat'];
-$qus->qus_show($cat);
+$category = $qus->qus_show($cat);
 $_SESSION['cat']=$cat;
 ?>
 
@@ -121,7 +121,7 @@ $_SESSION['cat']=$cat;
       </tbody>
   </table>
   <?php $i++; }?>
-   <center><input type="submit"  value="submit" class="btn btn-success"/></center>
+   <center><input type="submit"  name="submit" value="submit" class="btn btn-success"/></center>
    </form>
   </div>
   <div class="col-sm-2"></div>

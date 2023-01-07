@@ -1,5 +1,5 @@
 <?php
-include "class/users.php";
+include "../class/users.php";
 $answer=new users;
 //extract($_POST);
 

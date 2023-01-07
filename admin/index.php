@@ -3,6 +3,21 @@ include("../class/users.php");
 $cat=new users;
 $category=$cat->cat_shows();
 //print_r($category);
+
+$conn = $cat->conn;
+$today = Date('Y-m-d');
+$sql = "SELECT * FROM quiz_takers WHERE date='$today'";
+$result = $conn->query($sql);
+$numberOfQuizAnsweredToday = $result->num_rows;
+$row = $result->fetch_assoc();
+
+$result2 = $conn->query("SELECT COUNT(DISTINCT taker_id) AS num_rows FROM quiz_takers WHERE date='$today'");
+$row2 = $result2->fetch_assoc();
+$numberOfTakersToday = $row2['num_rows'];
+
+$result3 = $conn->query("SELECT COUNT(DISTINCT taker_id) AS num_rows FROM quiz_takers");
+$row3 = $result3->fetch_assoc();
+$totalNumberOfTakers = $row3['num_rows'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +43,7 @@ $category=$cat->cat_shows();
     <link href="..//css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="../css/dashboard.css" rel="stylesheet">
+    <link href="dashboard.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -83,7 +98,49 @@ $category=$cat->cat_shows();
       </div>
     </nav>
     <div  class="dashboard">
-      <h2 class="ms-5">DASHBOARD</h2>
+      <div class="text-center my-5">
+        <h2 class="ms-5">DASHBOARD</h2>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card text-center card1">
+              <?php 
+                $date = date("Y-m-d");
+                $formatted_date = strftime("%B %d, %Y", strtotime($date));
+                $formatted_date = ucwords($formatted_date);
+                echo '<h6>'.$formatted_date.'<br>'.'</h6>';
+                echo '<h1>'.$numberOfQuizAnsweredToday.'<br>'.'</h1>';
+                echo '<h4>Number of Answered Quizes Today</h4>';
+              ?>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card text-center card2">
+              <?php 
+                $date = date("Y-m-d");
+                $formatted_date = strftime("%B %d, %Y", strtotime($date));
+                $formatted_date = ucwords($formatted_date);
+                echo '<h6>'.$formatted_date.'<br>'.'</h6>';
+                echo '<h1>'.$numberOfTakersToday.'<br>'.'</h1>';
+                echo '<h4>Number of Takers Today</h4>';
+              ?>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card text-center card3">
+              <?php 
+                $date = date("Y-m-d");
+                $formatted_date = strftime("%B %d, %Y", strtotime($date));
+                $formatted_date = ucwords($formatted_date);
+                echo '<h6>'.$formatted_date.'<br>'.'</h6>';
+                echo '<h1>'.$totalNumberOfTakers.'<br>'.'</h1>';
+                echo '<h4>Total Number of Takers</h4>';
+              ?>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     

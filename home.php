@@ -60,7 +60,7 @@ $profile->cat_shows();
 					<?php 
 					foreach($profile->cat as $category)
 					{?>
-						         <option value="<?php echo $category['id']; ?>"><?php echo $category['category']; ?></option>
+						         <option value="<?php echo $category['id'];?>"><?php echo $category['category']; ?></option>
 							<?php	 } ?>
 				                     </select><br>
 									 <center><input type="submit"  value="submit" class="btn btn-primary" ></center>
@@ -93,7 +93,7 @@ $profile->cat_shows();
 				{ ?>					
 					
 						  <tr>
-							<td><?php echo $prof['id']; ?></td>
+							<td><?php echo $prof['id']; $_SESSION['id']=$prof['id']?></td>
 							<td><?php echo $prof['name']; ?></td>
 							<td><?php echo $prof['email']; ?></td>
 							<td><img src="img/<?php echo $prof['img'] ?>" alt="" width="150px" height="150px"/></td>

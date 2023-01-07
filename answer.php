@@ -1,6 +1,7 @@
 <?php 
 include("class/users.php");
 $ans=new users;
+$conn = $ans->conn;
 $answer=$ans->answer($_POST);
 ?>
 <!DOCTYPE HTML>
@@ -15,7 +16,22 @@ $answer=$ans->answer($_POST);
       <center>
 	  <?php
 	    $total_qus=$answer['right']+$answer['wrong']+$answer['no_answer'];
-		$attempt_qus=$answer['right']+$answer['wrong'];
+		  $attempt_qus=$answer['right']+$answer['wrong'];
+
+      if(isset($_POST['submit'])) {
+
+        $sql = "INSERT INTO quiz_takers (taker_id, category_id, date, score) VALUES (?,?,?,?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssss',$taker_id, $category_id, $date, $score);
+
+        $taker_id =$_SESSION['id'];
+        $category_id = $_SESSION['cat'];
+        $score = $answer['right'];
+        $date = date("Y-m-d H:i:s");
+        $stmt->execute();
+        $stmt->close();
+      }
+
 	  ?>
 	  <div class="container">
 	  <div class="col-sm-2"></div>
@@ -31,7 +47,7 @@ $answer=$ans->answer($_POST);
     </thead>
     <tbody>
       <tr>
-        <td>Attemped Questions:</td>
+        <td>Attempted Questions:</td>
         <td><?php echo $attempt_qus; ?></td>
       </tr>
       <tr>

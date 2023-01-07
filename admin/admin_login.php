@@ -1,6 +1,8 @@
     <?php
+        include("../class/users.php");
+        $admin = new users();
 
-        $conn = new mysqli("localhost", "root", "", "quiz_oops");
+        $conn = $admin->conn;
 
         $login_err="";
         if(isset($_POST['signin'])) {
