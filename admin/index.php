@@ -18,6 +18,29 @@ $numberOfTakersToday = $row2['num_rows'];
 $result3 = $conn->query("SELECT COUNT(DISTINCT taker_id) AS num_rows FROM quiz_takers");
 $row3 = $result3->fetch_assoc();
 $totalNumberOfTakers = $row3['num_rows'];
+
+$average ="";
+$numberOfTakes="";
+if (isset($_POST['category'])) {
+  $score = 0;
+  $selected_category = $_POST['category'];
+  $result4 = $conn->query(" SELECT quiz_takers.score, category.category
+                            FROM quiz_takers 
+                            INNER JOIN category ON quiz_takers.category_id = category.id 
+                            WHERE category.category='$selected_category'");
+  while ($row4 = $result4->fetch_assoc()) {
+    $score += $row4['score'];
+    $category = $row4['category'];
+  }
+  $numberOfTakes = mysqli_num_rows($result4);
+  if($numberOfTakes!=0){
+    $average = $score / $numberOfTakes;
+    $average =  number_format($average, 2);
+  }else {
+    $average = 0;
+  }
+  
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,6 +77,7 @@ $totalNumberOfTakers = $row3['num_rows'];
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
   </head>
 
   <body>
@@ -102,7 +126,7 @@ $totalNumberOfTakers = $row3['num_rows'];
         <h2 class="ms-5">DASHBOARD</h2>
       </div>
       <div class="container">
-        <div class="row">
+        <div class="row mb-5">
           <div class="col-md-4">
             <div class="card text-center card1">
               <?php 
@@ -135,8 +159,44 @@ $totalNumberOfTakers = $row3['num_rows'];
                 $formatted_date = ucwords($formatted_date);
                 echo '<h6>'.$formatted_date.'<br>'.'</h6>';
                 echo '<h1>'.$totalNumberOfTakers.'<br>'.'</h1>';
-                echo '<h4>Total Number of Takers</h4>';
+                echo '<h4>Total Number of Participants</h4>';
               ?>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-md-12 card4">
+            <div class=" text-start d-flex align-items-center">
+              <div class="col-sm-6">
+                <h3 class="my-5"><?php echo "Quiz Overview";?></h3>
+              </div>
+              <div class="col-sm-6 d-flex align-items-center my-5 justify-content-end">
+                <form action="" method="post">
+                  <select class="form-select form-select-lg" aria-label="Default select example" name="category" onchange="this.form.submit()">
+                    <option value="">Select Category</option>
+                    <option value="PHP" <?php if (isset($_POST['category']) && $_POST['category'] == 'PHP') echo 'selected'; ?>>PHP</option>
+                    <option value="OOP" <?php if (isset($_POST['category']) && $_POST['category'] == 'OOP') echo 'selected'; ?>>OOP</option>
+                    <option value="MySQLI" <?php if (isset($_POST['category']) && $_POST['category'] == 'MySQLI') echo 'selected'; ?>>MySQLI</option>
+                    <option value="HTML" <?php if (isset($_POST['category']) && $_POST['category'] == 'HTML') echo 'selected'; ?>>HTML</option>
+                    <option value="JAVASCRIPT" <?php if (isset($_POST['category']) && $_POST['category'] == 'JAVASCRIPT') echo 'selected'; ?>>JAVASCRIPT</option>
+                    <option value="BOOTSTRAP" <?php if (isset($_POST['category']) && $_POST['category'] == 'BOOTSTRAP') echo 'selected'; ?>>BOOTSTRAP</option>
+                    <option value="CSS" <?php if (isset($_POST['category']) && $_POST['category'] == 'CSS') echo 'selected'; ?>>CSS</option>
+                    <option value="AJAX" <?php if (isset($_POST['category']) && $_POST['category'] == 'AJAX') echo 'selected'; ?>>AJAX</option>
+                    <option value="JQUERY" <?php if (isset($_POST['category']) && $_POST['category'] == 'JQUERY') echo 'selected'; ?>>JQUERY</option>
+                  </select>
+                </form>
+              </div>
+            </div>
+            <div class="mb-5">
+              <div class="col-sm-6">
+                <h4 class="d-inline" ><i class='fas fa-user-friends' style='font-size:24px;color:blue'></i> Number of Takers:</h4>
+                <h1 class="d-inline" >&nbsp&nbsp<?php echo $numberOfTakes;?></h1>
+              </div>
+              <div class="col-sm-6">
+                <h4 class="d-inline"><i class='fas fa-calculator' style='font-size:24px;color:orange'></i> Average Score:</h4>
+                <h1 class="d-inline">&nbsp&nbsp<?php echo $average;?></h1>
+                <br><br><br>
+              </div>
             </div>
           </div>
         </div>
