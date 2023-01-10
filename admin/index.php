@@ -30,7 +30,6 @@ if (isset($_POST['category'])) {
                             WHERE category.category='$selected_category'");
   while ($row4 = $result4->fetch_assoc()) {
     $score += $row4['score'];
-    $category = $row4['category'];
   }
   $numberOfTakes = mysqli_num_rows($result4);
   if($numberOfTakes!=0){
@@ -93,7 +92,7 @@ if (isset($_POST['category'])) {
               <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Quest-bank</a>
+              <a class="nav-link" href="add_quiz.php">Quest-bank</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -171,20 +170,19 @@ if (isset($_POST['category'])) {
                 <h3 class="my-5"><?php echo "Quiz Overview";?></h3>
               </div>
               <div class="col-sm-6 d-flex align-items-center my-5 justify-content-end">
-                <form action="" method="post">
+                <form method="post" action="">
                   <select class="form-select form-select-lg" aria-label="Default select example" name="category" onchange="this.form.submit()">
-                    <option value="">Select Category</option>
-                    <option value="PHP" <?php if (isset($_POST['category']) && $_POST['category'] == 'PHP') echo 'selected'; ?>>PHP</option>
-                    <option value="OOP" <?php if (isset($_POST['category']) && $_POST['category'] == 'OOP') echo 'selected'; ?>>OOP</option>
-                    <option value="MySQLI" <?php if (isset($_POST['category']) && $_POST['category'] == 'MySQLI') echo 'selected'; ?>>MySQLI</option>
-                    <option value="HTML" <?php if (isset($_POST['category']) && $_POST['category'] == 'HTML') echo 'selected'; ?>>HTML</option>
-                    <option value="JAVASCRIPT" <?php if (isset($_POST['category']) && $_POST['category'] == 'JAVASCRIPT') echo 'selected'; ?>>JAVASCRIPT</option>
-                    <option value="BOOTSTRAP" <?php if (isset($_POST['category']) && $_POST['category'] == 'BOOTSTRAP') echo 'selected'; ?>>BOOTSTRAP</option>
-                    <option value="CSS" <?php if (isset($_POST['category']) && $_POST['category'] == 'CSS') echo 'selected'; ?>>CSS</option>
-                    <option value="AJAX" <?php if (isset($_POST['category']) && $_POST['category'] == 'AJAX') echo 'selected'; ?>>AJAX</option>
-                    <option value="JQUERY" <?php if (isset($_POST['category']) && $_POST['category'] == 'JQUERY') echo 'selected'; ?>>JQUERY</option>
-                  </select>
-                </form>
+                    <option >select category</option>
+                    <?php 
+                      foreach($cat->cat as $category1)
+                      {?>
+                    <option value="<?php echo $category1['category']; ?>" 
+                      <?php if (isset($_POST['category']) && $_POST['category'] == $category1['category']) echo 'selected'; ?>>
+                      <?php echo $category1['category']; ?>
+                    </option>
+                    <?php	 } ?>
+				          </select><br>
+								</form>
               </div>
             </div>
             <div class="mb-5">

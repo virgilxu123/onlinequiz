@@ -12,68 +12,65 @@ class users{
 	
 	
 	public function __construct()
-	{
-		$this->conn=new mysqli($this->host,$this->username,$this->pass,$this->db_name);
-		if($this->conn->connect_errno)
 		{
-			die('Connect Error: ' . $this->dbconn->connect_errno);
+			$this->conn=new mysqli($this->host,$this->username,$this->pass,$this->db_name);
+			if($this->conn->connect_errno)
+			{
+				die('Connect Error: ' . $this->dbconn->connect_errno);
+			}
 		}
-	}
 	
 	public function signup($data)
-	 {
-		$this->conn->query($data);
-	    return true;
-	 }
-	 
-	  public function signin($email,$pass)
-	{
-		$query=$this->conn->query("SELECT email,pass,name,img FROM signup WHERE email='$email' AND pass='$pass'");
-		$row = $query->fetch_array(MYSQLI_ASSOC);
- 		if($query->num_rows>0)
-		{	
-			$_SESSION['email']=$email;
-			$_SESSION['name']=$row['name'];
-			$_SESSION['img'] =$row['img'];
+		{
+			$this->conn->query($data);
 			return true;
 		}
-		else
-		{
-			return false;
-		} 
 		
-	}
-	   public function users_profile($email)
-	{
-		$query=$this->conn->query("SELECT * FROM signup WHERE email='$email'");
-		$row = $query->fetch_array(MYSQLI_ASSOC);
-        if($query->num_rows>0)
+	public function signin($email,$pass)
 		{
-			$this->data[]=$row;
-		}	
-		 return  $this->data;
-	}
+			$query=$this->conn->query("SELECT email,pass,name,img FROM signup WHERE email='$email' AND pass='$pass'");
+			$row = $query->fetch_array(MYSQLI_ASSOC);
+			if($query->num_rows>0)
+			{	
+				$_SESSION['email']=$email;
+				$_SESSION['name']=$row['name'];
+				$_SESSION['img'] =$row['img'];
+				return true;
+			}
+			else
+			{
+				return false;
+			} 
+
+		}
+	public function users_profile($email)
+		{
+			$query=$this->conn->query("SELECT * FROM signup WHERE email='$email'");
+			$row = $query->fetch_array(MYSQLI_ASSOC);
+			if($query->num_rows>0)
+			{
+				$this->data[]=$row;
+			}	
+			return  $this->data;
+		}
 	public function cat_shows()
-	{
-		$query=$this->conn->query("SELECT * FROM category");
-		while($row=$query->fetch_array(MYSQLI_ASSOC))
-       {
-			$this->cat[]=$row;
-		}	
-		 return  $this->cat;
-	}
-	public function qus_show($qus)
-	{
-		
+		{
+			$query=$this->conn->query("SELECT * FROM category");
+			while($row=$query->fetch_array(MYSQLI_ASSOC))
+		{
+				$this->cat[]=$row;
+			}	
+			return  $this->cat;
+		}
+	public function qus_show($qus){
 		$query=$this->conn->query("SELECT * FROM questions WHERE cat_id='$qus'");
-		while($row=$query->fetch_array(MYSQLI_ASSOC))
-       {
+		while($row=$query->fetch_array(MYSQLI_ASSOC)){
 			$this->qus[]=$row;
 		}	
 		 return  $this->qus;
 		
-		}
-         public function answer($data)
+	}
+public function answer($data)
 		 {  
 			$ans=implode("",$data);
 			 $right=0;
@@ -110,7 +107,7 @@ class users{
      }
 	
 	
-        public function url($url)
+    public function url($url)
 	 {
 		header("location:".$url);
 	 }
