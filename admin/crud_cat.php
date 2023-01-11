@@ -1,32 +1,40 @@
-<?php
-extract($_POST);
+<?php 
 include("../class/users.php");
-$quiz=new users;
-$category = $quiz->cat_shows();
-$conn = $quiz->conn;
-$err = "";
-if(isset($_POST['submit'])){
-  $qus=htmlentities($qus);
-  $option1=htmlentities($op1);
-  $option2=htmlentities($op2);
-  $option3=htmlentities($op3);
-  $option4=htmlentities($op4);
-  $array=[$option1,$option2,$option3,$option4];
-  $answer=array_search($ans,$array);
-  
-  if($option1!=null&&$option2!=null&&$option3!=null&&$option4!=null){
-    $query="insert into questions values ('','$qus','$option1','$option2','$option3','$option4','$answer','$cat')";
-    if($quiz->add_quiz($query)){
-      $quiz->url("add_quiz.php?msg=run");
-      echo "Data inserted successfully";
+$cat=new users;
+$category = $cat->cat_shows();
+$conn = $cat->conn;
+$msg = "";
+foreach($category as $cty) {
+    if(isset($_POST['delete'.$cty['category']])){
+        $category6 = $cty['category'];
+        $sql2 = "DELETE FROM category WHERE category='$category6'";
+        $conn->query($sql2);
+        $msg = "Successfully deleted";
+        $cat->url("crud_cat.php?delete=success");
     }
-  }else {
-    $err = "Please fill in all fields!";
-  }
-  
+    if(isset($_POST['edit'.$cty['category']])){
+        echo $_POST['delete'.$cty['category']];
+        $cat->url("edit.php?cat=".$cty['id']);
+    }
+    
+}
+
+
+if(isset($_POST['submit'])) {
+    if($_POST['cat_name']!=null) {
+        $name = $_POST['cat_name'];
+        $sql = "INSERT INTO category (category) VALUES('$name')";
+        if($conn->query($sql)) {
+            $cat->url("crud_cat.php?add=success");
+            $msg = "Category successfully added";
+        }
+    }else {
+        $msg = "Please enter category name";
+    }
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -37,7 +45,7 @@ if(isset($_POST['submit'])){
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
-
+    <link rel="icon" href="../7489484.png">
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -64,9 +72,7 @@ if(isset($_POST['submit'])){
     <![endif]-->
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
   </head>
-
   <body>
-  
   <nav class=" fixed-top  navbar navbar-expand-sm navbar-dark bg-dark">
       <div class="col-11 container-fluid">
         <div class="navbar-header">
@@ -78,19 +84,19 @@ if(isset($_POST['submit'])){
               <a class="nav-link " aria-current="page" href="index.php">Dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="add_quiz.php">Quest-bank</a>
+              <a class="nav-link" href="add_quiz.php">Quest-bank</a>
             </li>
             <li class="nav-item ">    
               <a class="nav-link" href="report.php">Rankings</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+              <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="crud_cat.php">Settings</a></li>
+                <li><a class="dropdown-item " href="crud_cat.php">Settings</a></li>
                 <li>
                   <form action="logout.php" method="post">
                     <input type="submit" class="dropdown-item" href="#" name="logout" value="logout">
-                  </form>
+                </form>
                 </li>
               </ul>
             </li>
@@ -98,65 +104,50 @@ if(isset($_POST['submit'])){
         </div>
       </div>
     </nav>
-<div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-1 main">
-          <h1 class="page-header">Add Question</h1>
-       
-          <div class="table-responsive">
-            <table class="table table-striped">
-			<?php
-
-             if(isset($_GET['msg']) && !empty($_GET['msg']))
-			 {
-				 echo  "<mark>Data inserted successfully</mark>" ;
-         
-			 }
-       echo '<p style="color:red;">'.$err.'</p>';
-			?>
-         <form method="post" action="add_quiz.php">    
-    <div class="form-group">
-      <label for="text">Question</label>
-      <input type="text" class="form-control" name="qus" placeholder="Enter Question">
-    </div>
-	  
-	  <div class="form-group">
-      <label for="text">Option-1</label>
-      <input type="text" class="form-control" name="op1" placeholder="Enter Option-1 ">
-    </div>
-	
-    <div class="form-group">
-      <label for="text">Option-2</label>
-      <input type="text" class="form-control" name="op2" placeholder="Enter Option-2">
-    </div>
-	
-    <div class="form-group">
-      <label for="text">Option-3</label>
-      <input type="text" class="form-control" name="op3" placeholder="Enter Option-3">
-    </div>
-	
-	<div class="form-group">
-      <label for="text">Option-4</label>
-      <input type="text" class="form-control" name="op4" placeholder="Enter Option-4">
-    </div>
-	
-	<div class="form-group">
-      <label for="text">answer</label>
-      <input type="text" class="form-control"  name="ans"placeholder="Enter answer">
-  </div>
-  <select class="form-select form-select-lg" aria-label="Default select example" name="category" ">
-    <option value="" >choose category</option>
-		<?php 
-		 foreach($category as $c){
-			 echo "<option value=".$c['id'].">".$c['category']."</option>";	 
-		 }
-		?>
-		</select><br>
-  <input type="submit" class="btn btn-default" name="submit" value="Submit"><br>
-  </form>
-              </tbody>
+    <div  class="dashboard ">
+        <form method="post" action="">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col" class="col-sm-2 text-center">#</th>
+                        <th scope="col" class="col-sm-8">Category</th>
+                        <th scope="col" class="col-sm-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $num=1;
+                    foreach($category as $c){
+                        echo '
+                            <tr>    
+                                <th scope="row" class="text-center">'.$num.'</th>
+                                <td>'.$c['category'].'</td>
+                                <td>
+                                    <button type="submit" value="'.$c['category'].'" name="edit'.$c['category'].'" class="btn-primary btn-sm">Edit</button>
+                                    <button type="submit" value="'.$c['category'].'" name="delete'.$c['category'].'" class="btn-danger btn-sm">Delete</button>
+                                </td>
+                                
+                            </tr>';
+                        ++$num;
+                    }
+                    ?>
+                </tbody>
             </table>
-          </div>
-        </div>
-      </div>
+            <br>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" placeholder="Enter category name" name="cat_name">
+            </div>
+            <div class="col-sm-2">
+                <input type="submit" name="submit" value="Add Category" class="btn-primary form-control">
+            </div>
+        </form>
     </div>
+    <br>
+    <br>
+    <div class="col-sm-4 pl-3">
+        <h5 class="pl-3"><?php echo $msg; ?></h5>
+    </div>
+    
+
+  </body>
+  </html>

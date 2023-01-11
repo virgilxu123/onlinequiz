@@ -40,6 +40,8 @@ if (isset($_POST['category'])) {
   }
   
 }
+
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -94,21 +96,13 @@ if (isset($_POST['category'])) {
             <li class="nav-item">
               <a class="nav-link" href="add_quiz.php">Quest-bank</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Overview
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Reports</a></li>
-                <li><a class="dropdown-item" href="#">Analytics</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Export</a></li>
-              </ul>
+            <li class="nav-item ">    
+              <a class="nav-link" href="report.php">Rankings</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="crud_cat.php">Settings</a></li>
                 <li>
                   <form action="logout.php" method="post">
                     <input type="submit" class="dropdown-item" href="#" name="logout" value="logout">

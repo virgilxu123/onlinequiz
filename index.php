@@ -114,7 +114,7 @@ $signin=new users;
 				</div>
 			</div>
 			<div class="panel panel-default">
-				<div class="panel-footer">&copy; copyright<p style="float:right">Designed & Developed by Unknown</p></div>
+				<div class="panel-footer">&copy; copyright<p style="float:right">Designed & Developed by ME</p></div>
 			</div>
 		</div>
 	</div>
