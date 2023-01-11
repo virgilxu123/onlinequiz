@@ -106,7 +106,17 @@ if(isset($_POST['submit'])) {
     </nav>
     <div  class="dashboard ">
         <form method="post" action="">
+        <div class="d-flex justify-content-center">
+            <div class="col-sm-4">
+                <input type="text" class="form-control" placeholder="Enter category name" name="cat_name">
+            </div>
+            <div class="col-sm-2">
+                <input type="submit" name="submit" value="Add Category" class="btn-primary form-control">
+                <br>
+            </div>
+        </div>
             <table class="table table-striped table-sm">
+            
                 <thead>
                     <tr>
                         <th scope="col" class="col-sm-2 text-center">#</th>
@@ -134,12 +144,7 @@ if(isset($_POST['submit'])) {
                 </tbody>
             </table>
             <br>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" placeholder="Enter category name" name="cat_name">
-            </div>
-            <div class="col-sm-2">
-                <input type="submit" name="submit" value="Add Category" class="btn-primary form-control">
-            </div>
+            
         </form>
     </div>
     <br>
