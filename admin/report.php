@@ -118,16 +118,38 @@ $conn = $rank->conn;
                                                 JOIN signup ON quiz_takers.taker_id = signup.id
                                                 WHERE category.category='$selected_category'
                                                 ORDER BY quiz_takers.score DESC");
-                        $file = 1;
+                        $file = 0;
+                        $prev = 0;
                         while($row = $result->fetch_assoc()){
-    
-                            echo '  <tr>
-                                        <th scope="row" class="text-center">'.$file.'</th>
-                                        <td class="text-center">'.$row["name"].'</td>
-                                        <td class="text-center">'.$row["score"].'</td>
-                                        <td class="text-center">'.$row["date"].'</td>
-                                    </tr>';
-                            ++$file;
+                            if($file==0){
+                                $file += 1;
+                                echo '  <tr>
+                                            <th scope="row" class="text-center">'.$file.'</th>
+                                            <td class="text-center">'.$row["name"].'</td>
+                                            <td class="text-center">'.$row["score"].'</td>
+                                            <td class="text-center">'.$row["date"].'</td>
+                                        </tr>';
+                                $prev = $row['score'];
+                            }else {
+                                if($prev==$row['score']){
+                                    echo '  <tr>
+                                                <th scope="row" class="text-center">'.$file.'</th>
+                                                <td class="text-center">'.$row["name"].'</td>
+                                                <td class="text-center">'.$row["score"].'</td>
+                                                <td class="text-center">'.$row["date"].'</td>
+                                            </tr>';
+                                    $prev = $row['score'];
+                                }else {
+                                    $file += 1;
+                                    echo '  <tr>
+                                                <th scope="row" class="text-center">'.$file.'</th>
+                                                <td class="text-center">'.$row["name"].'</td>
+                                                <td class="text-center">'.$row["score"].'</td>
+                                                <td class="text-center">'.$row["date"].'</td>
+                                            </tr>';
+                                    $prev = $row['score'];
+                                }
+                            } 
                         }
                     }
                     $conn->close();

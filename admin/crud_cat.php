@@ -32,7 +32,7 @@ if(isset($_POST['submit'])) {
         $msg = "Please enter category name";
     }
 }
-
+$conn->close();
 ?>
 
 <!DOCTYPE html>
